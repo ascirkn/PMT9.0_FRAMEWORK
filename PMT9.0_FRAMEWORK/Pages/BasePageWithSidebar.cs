@@ -18,9 +18,9 @@ namespace PMT9._0_FRAMEWORK.Pages
         // MENU:
         //private IWebElement FeedbackLink => wait.Until(ElementIsVisible(By.XPath("//*[@class='a-TreeView-node is-expandable a-TreeView-node--topLevel']//div[@class='a-TreeView-content is-selected']//span[@class='a-TreeView-label' and contains(text(), 'Feedback')]")));
         private IWebElement FeedbackLink => wait.Until(ElementIsVisible(By.XPath("//*[@id='t_TreeNav_11']//span[@class='a-TreeView-toggle']")));
-        private IWebElement AnnualFeedbackLink => wait.Until(ElementIsVisible(By.XPath("//span[@class='a-TreeView-label' and contains(text(), 'Feedback roczny')]")));
+        private IWebElement AnnualFeedbackLink => wait.Until(ElementIsVisible(By.XPath("//*[@class='a-TreeView-label' and contains(text(), 'Feedback roczny')]")));
         private IWebElement GoalsReviewFeedback => wait.Until(ElementIsVisible(By.XPath("//*[@class='a-TreeView-label' and contains(text(), 'Feedback - weryfikacja celów')]")));
-        private IWebElement NewCustomerFeedback => wait.Until(ElementIsVisible(By.XPath("//*[@id='t_TreeNav_72']")));
+        private IWebElement NewCustomerFeedback => wait.Until(ElementIsVisible(By.XPath("//*[@class='a-TreeView-label' and contains(text(), 'Feedback - nowy pracownik')]")));
         internal AnnualFeedbackPage GoToAnnualFeedbacks()
         {
             Assert.IsTrue(SidebarMenu.Displayed, "Sidebar menu is not displayed.");
@@ -36,12 +36,12 @@ namespace PMT9._0_FRAMEWORK.Pages
             wait.Until(ElementToBeClickable(GoalsReviewFeedback)).Click();
             return new GoalsReviewFeedbackPage(driver, wait);
         }
-        internal SendInvite GoToNewCustomerFeedback()
+        internal SendInviteAnnual GoToNewCustomerFeedback()
         {
             Assert.IsTrue(SidebarMenu.Displayed, "Sidebar menu is not displayed.");
             wait.Until(ElementToBeClickable(FeedbackLink)).Click();
             wait.Until(ElementToBeClickable(NewCustomerFeedback)).Click();
-            return new SendInvite(driver, wait);
+            return new SendInviteAnnual(driver, wait);
         }
     }
 }

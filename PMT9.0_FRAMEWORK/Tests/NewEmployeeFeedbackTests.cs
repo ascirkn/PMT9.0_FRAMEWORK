@@ -2,17 +2,24 @@
 using PMT9._0_FRAMEWORK.Model;
 using PMT9._0_FRAMEWORK.Model.Employees;
 using PMT9._0_FRAMEWORK.Pages;
+using PMT9._0_FRAMEWORK.Pages.Annual_Feedback;
 using PMT9._0_FRAMEWORK.Pages.Feedback_roczny;
 using PMT9._0_FRAMEWORK.Pages.GoalsReviewFeedback;
+using PMT9._0_FRAMEWORK.Pages.NewEmployeeFeedback;
 using System;
 
-namespace PMT9._0_FRAMEWORK
+namespace PMT9._0_FRAMEWORK.Tests
 {
     [TestClass]
-    [TestCategory("GoalsReviewFeedback")]
-    public class GoalsReviewFeedbackTests : BaseTest
+    [TestCategory("AnnualFeedback")]
+    public class NewEmployeeFedbackTests : BaseTest
     {
-        internal static Feedback feedback = new Feedback
+        internal static Feedback AddFeedbackFOr = new Feedback
+        {
+            Employee = "Jan Kowal",
+            DateFeedback = "2023-10-13"
+        };
+        internal static Feedback report = new Feedback
         {
             //MarkType = Mark.Completed
             Mark = "1",
@@ -20,69 +27,66 @@ namespace PMT9._0_FRAMEWORK
             Comment2 = "komentuje drugi raz",
             Comment3 = "komentuje 3 raz"
         };
-
-        internal static Feedback AddFeedbackFOr = new Feedback
+        internal static Feedback ReportWithGoals = new Feedback
         {
-            Employee = "Jan Kowal",
-            DateFeedback = "2020-09-02"
+            Comment0 = "reportuje",
         };
+        internal static string NameOfUserToReport = "Jan Kowal";
+        internal static string DateOfReport = "2021-09-23";
+        internal string TodayPlus365 = DateTime.Now.AddDays(365).ToString("yyyy-MM-dd");
         internal static Feedback ReceiverOfQuestionnaire = new Feedback
         {
-            Receiver ="Kuba Tester",
+            Receiver = "Kuba Tester",
             Questionnaire = "test",
             DateFeedback = "2021-09-18"
         };
-        internal static Feedback ReceiverOfInvite = new Feedback
-        {
-            Receiver = "Kuba Tester",
-            DateFeedback = "2021-09-16 14:29:00"
-        };
-        internal static string NameOfUserToInvite = "Jan Kowal";
-        internal static string DateOfInvitation = "2021-09-23";
         [TestMethod]
         [Description("Checks if feedback is added.")]
-        public void AddNewFeedback()
+        public void AddFeedback()
         {
             var loginPage = new LoginPage(driver, wait);
             loginPage.GoTo();
             loginPage.SignUp(myLogin, myPassword);
-            var FeedbackPage = new GoalsReviewFeedbackPage(driver, wait);
-            FeedbackPage.GoToGoalsReview();
+            var FeedbackPage = new AddFeedbackNewEmployee(driver, wait);
+            FeedbackPage.GoToNewCustomerFeedback();
             FeedbackPage.CreateFeedback(AddFeedbackFOr);
         }
-
         [TestMethod]
-        [Description("Checks if invite is sent.")]
-        public void SendInviteForFeedback()
+        [Description("Checks if report is added without goals.")]
+        public void AddReportWithoutGoals()
         {
             var loginPage = new LoginPage(driver, wait);
             loginPage.GoTo();
             loginPage.SignUp(myLogin, myPassword);
-            var FeedbackPage = new SendInviteGoalsReview(driver, wait);
-            FeedbackPage.GoToGoalsReview();
-            FeedbackPage.NameOfUserToSendInviteFor(NameOfUserToInvite, DateOfInvitation);
-            FeedbackPage.NameOfReceiver(ReceiverOfInvite);
-
-            bool isSent = FeedbackPage.isSent();
-            Assert.IsTrue(isSent, "Invite has not been sent.");
-        }
-
-        [TestMethod]
-        [Description("Checks if report is added.")]
-        public void AddReport()
-        {
-            var loginPage = new LoginPage(driver, wait);
-            loginPage.GoTo();
-            loginPage.SignUp(myLogin, myPassword);
-            var FeedbackPage = new AddReportGoalsReview(driver, wait);
-            FeedbackPage.GoToGoalsReview();
+            var FeedbackPage = new AddReportNewEmployee(driver, wait);
+            FeedbackPage.GoToNewCustomerFeedback();
             FeedbackPage.NameOfUserToReport("Jan Kowal", "2021-09-23");
-            FeedbackPage.CreateReportForApexJunior(feedback);
-
-            bool isAdded = FeedbackPage.isAdded();
-            Assert.IsTrue(isAdded, "Report isn't added. Something went wrong");
+            FeedbackPage.CreateReportForApexJunior(report);
         }
+        [TestMethod]
+        [Description("Checks if report is added with goals.")]
+        public void AddReportWithGoals()
+        {
+            var loginPage = new LoginPage(driver, wait);
+            loginPage.GoTo();
+            loginPage.SignUp(myLogin, myPassword);
+            var FeedbackPage = new AddReportNewEmployee(driver, wait);
+            FeedbackPage.GoToNewCustomerFeedback();
+            FeedbackPage.NameOfUserToReport("Jan Kowal", "2021-09-23");
+            FeedbackPage.CreateGoalsForApexJuniorWithGoals(ReportWithGoals);
 
+            bool IsAddedWithGoals = FeedbackPage.IsAddedWithGoals(NameOfUserToReport, TodayPlus365);
+ 
+        }
+        [TestMethod]
+        [Description("Checks if report is added with action plans.")]
+        public void AddReportWithActionPlan()
+        {
+            var loginPage = new LoginPage(driver, wait);
+            loginPage.GoTo();
+            loginPage.SignUp(myLogin, myPassword);
+
+        }
         [TestMethod]
         [Description("Checks if questionnaire is sent.")]
         public void SendQuestionnaire()

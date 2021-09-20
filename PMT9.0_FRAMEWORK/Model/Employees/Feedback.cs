@@ -13,13 +13,16 @@ namespace PMT9._0_FRAMEWORK.Model
         internal string AddFeedbackEmployee { get; set; }
         //internal Mark MarkType { get; set; }
         internal string Mark { get; set; }
-        internal string CommentApex1 { get; set;}
-        internal string CommentApex2 { get; set; }
-        internal string CommentApex3 { get; set; }
-        internal string CommentApex4 { get; set; }
-        internal string CommentApex5 { get; set; }
+        internal string Comments { get; set; }
+        internal string Comment0 { get; set; }
+        internal string Comment1 { get; set;}
+        internal string Comment2 { get; set; }
+        internal string Comment3 { get; set; }
+        internal string Comment4 { get; set; }
+        internal string Comment5 { get; set; }
 
         internal string Receiver { get; set; }
         internal string Questionnaire { get; set; }
+        public static DateTime today { get; }
     }
 }

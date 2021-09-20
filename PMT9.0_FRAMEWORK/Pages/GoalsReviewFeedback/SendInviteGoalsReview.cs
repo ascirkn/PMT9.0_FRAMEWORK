@@ -8,7 +8,7 @@ using static SeleniumExtras.WaitHelpers.ExpectedConditions;
 
 namespace PMT9._0_FRAMEWORK.Pages.GoalsReviewFeedback
 {
-    class SendInvite : BasePageWithSidebar
+    class SendInviteGoalsReview : BasePageWithSidebar
     {
         private IWebElement AddInviteButton => wait.Until(ElementIsVisible(By.XPath("//button[@id='INVITE']")));
         private IWebElement Receiver => SendInviteButton.FindElement(By.XPath("//span[@class='select2-selection select2-selection--multiple']"));
@@ -16,7 +16,7 @@ namespace PMT9._0_FRAMEWORK.Pages.GoalsReviewFeedback
         private IWebElement SendInviteButton => wait.Until(ElementIsVisible(By.XPath("//button[@class='t-Button t-Button--icon t-Button--iconLeft t-Button--hot']")));
         private IWebElement JiraTask => SendInviteButton.FindElement(By.XPath("//label[@for='P431_CREATE_JIRA_0']"));
         private IWebElement OutReceiverWindow => SendInviteButton.FindElement(By.XPath("//div[@class='t-ButtonRegion-col t-ButtonRegion-col--content']"));
-        public SendInvite(OpenQA.Selenium.IWebDriver driver, WebDriverWait wait) : base(driver, wait) { }
+        public SendInviteGoalsReview(OpenQA.Selenium.IWebDriver driver, WebDriverWait wait) : base(driver, wait) { }
 
         internal void NameOfUserToSendInviteFor(string NameOfUserToSendInviteFor, string DateOfFeedbackToReport)
         { 

@@ -9,9 +9,9 @@ using static SeleniumExtras.WaitHelpers.ExpectedConditions;
 
 namespace PMT9._0_FRAMEWORK.Pages.GoalsReviewFeedback
 {
-    class SendQuestionnaire : BasePageWithSidebar
+    class SendQuestionnaireGoalsReview : BasePageWithSidebar
     {
-        public SendQuestionnaire(IWebDriver driver, WebDriverWait wait) : base(driver, wait) { }
+        public SendQuestionnaireGoalsReview(IWebDriver driver, WebDriverWait wait) : base(driver, wait) { }
 
         private IWebElement AddQuestionnaireButton => wait.Until(ElementIsVisible(By.XPath("//*[@id='SEND_SURVEY']")));
         private IWebElement Receiver => wait.Until(ElementIsVisible(By.XPath("//span[@class='select2-selection select2-selection--multiple']")));
