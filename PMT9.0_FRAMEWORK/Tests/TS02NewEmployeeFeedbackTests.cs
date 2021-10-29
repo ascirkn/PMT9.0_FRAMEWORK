@@ -11,8 +11,8 @@ using System;
 namespace PMT9._0_FRAMEWORK.Tests
 {
     [TestClass]
-    [TestCategory("AnnualFeedback")]
-    public class NewEmployeeFedbackTests : BaseTest
+    [TestCategory("NewEmployeeFeedback")]
+    public class TS02NewEmployeeFedbackTests : BaseTest
     {
         internal static Feedback AddFeedbackFOr = new Feedback
         {
@@ -25,24 +25,26 @@ namespace PMT9._0_FRAMEWORK.Tests
             Mark = "1",
             Comment1 = "komentuje",
             Comment2 = "komentuje drugi raz",
-            Comment3 = "komentuje 3 raz"
+            SupperiorComment ="zxcv"
         };
         internal static Feedback ReportWithGoals = new Feedback
         {
-            Comment0 = "reportuje",
+            Comment1 = "reportuje",
+            SupperiorComment = "GOOD"
         };
         internal static string NameOfUserToReport = "Jan Kowal";
-        internal static string DateOfReport = "2021-09-23";
+        internal static string DateOfReport = "2023-10-13";
         internal string TodayPlus365 = DateTime.Now.AddDays(365).ToString("yyyy-MM-dd");
         internal static Feedback ReceiverOfQuestionnaire = new Feedback
         {
             Receiver = "Kuba Tester",
             Questionnaire = "test",
-            DateFeedback = "2021-09-18"
+            DateFeedback = "2023-09-18"
         };
-        [TestMethod]
-        [Description("Checks if feedback is added.")]
-        public void AddFeedback()
+        internal static string Status = "Zaplanowany";
+        [TestMethod, TestCategory("NewEmployeeFeedback")]
+        [Description("Check if feedback is added.")]
+        public void TC01AddFeedback()
         {
             var loginPage = new LoginPage(driver, wait);
             loginPage.GoTo();
@@ -50,53 +52,50 @@ namespace PMT9._0_FRAMEWORK.Tests
             var FeedbackPage = new AddFeedbackNewEmployee(driver, wait);
             FeedbackPage.GoToNewCustomerFeedback();
             FeedbackPage.CreateFeedback(AddFeedbackFOr);
+
+            bool IsFeedbackAdded = FeedbackPage.IsFeedbackAdded(AddFeedbackFOr);
+            Assert.IsTrue(IsFeedbackAdded, "Feedback has not been added.");
         }
-        [TestMethod]
-        [Description("Checks if report is added without goals.")]
-        public void AddReportWithoutGoals()
+        [TestMethod, TestCategory("NewEmployeeFeedback")]
+        [Description("Check if report is added without goals.")]
+        public void TC03AddReportWithoutGoals()
         {
             var loginPage = new LoginPage(driver, wait);
             loginPage.GoTo();
             loginPage.SignUp(myLogin, myPassword);
             var FeedbackPage = new AddReportNewEmployee(driver, wait);
             FeedbackPage.GoToNewCustomerFeedback();
-            FeedbackPage.NameOfUserToReport("Jan Kowal", "2021-09-23");
+            FeedbackPage.NameOfUserToReport(NameOfUserToReport, DateOfReport, Status);
             FeedbackPage.CreateReportForApexJunior(report);
+
+            bool isErrorDisplayed = FeedbackPage.isErrorDisplayed();
+            Assert.IsTrue(isErrorDisplayed, "Report has not been added without goals.");
         }
-        [TestMethod]
-        [Description("Checks if report is added with goals.")]
-        public void AddReportWithGoals()
+        [TestMethod, TestCategory("NewEmployeeFeedback")]
+        [Description("Check if report is added with goals.")]
+        public void TC04AddReportWithGoals()
         {
             var loginPage = new LoginPage(driver, wait);
             loginPage.GoTo();
             loginPage.SignUp(myLogin, myPassword);
             var FeedbackPage = new AddReportNewEmployee(driver, wait);
             FeedbackPage.GoToNewCustomerFeedback();
-            FeedbackPage.NameOfUserToReport("Jan Kowal", "2021-09-23");
+            FeedbackPage.NameOfUserToReport(NameOfUserToReport, DateOfReport, Status);
             FeedbackPage.CreateGoalsForApexJuniorWithGoals(ReportWithGoals);
 
             bool IsAddedWithGoals = FeedbackPage.IsAddedWithGoals(NameOfUserToReport, TodayPlus365);
  
         }
-        [TestMethod]
-        [Description("Checks if report is added with action plans.")]
-        public void AddReportWithActionPlan()
-        {
-            var loginPage = new LoginPage(driver, wait);
-            loginPage.GoTo();
-            loginPage.SignUp(myLogin, myPassword);
-
-        }
-        [TestMethod]
+        [TestMethod, TestCategory("NewEmployeeFeedback")]
         [Description("Checks if questionnaire is sent.")]
-        public void SendQuestionnaire()
+        public void TC02SendQuestionnaire()
         {
             var loginPage = new LoginPage(driver, wait);
             loginPage.GoTo();
             loginPage.SignUp(myLogin, myPassword);
             var FeedbackPage = new SendQuestionnaireGoalsReview(driver, wait);
-            FeedbackPage.GoToGoalsReview();
-            FeedbackPage.NameOfUserToSendQuestionnaireFor("Jan Kowal", "2021-09-23");
+            FeedbackPage.GoToNewCustomerFeedback();
+            FeedbackPage.NameOfUserToSendQuestionnaireFor(NameOfUserToReport, DateOfReport, Status);
             FeedbackPage.NameOfReceiver(ReceiverOfQuestionnaire);
 
             bool isSent = FeedbackPage.isSent();

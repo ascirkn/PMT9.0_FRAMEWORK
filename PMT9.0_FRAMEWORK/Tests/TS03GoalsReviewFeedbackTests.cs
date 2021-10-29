@@ -6,42 +6,42 @@ using PMT9._0_FRAMEWORK.Pages.Feedback_roczny;
 using PMT9._0_FRAMEWORK.Pages.GoalsReviewFeedback;
 using System;
 
-namespace PMT9._0_FRAMEWORK
+namespace PMT9._0_FRAMEWORK.Tests
 {
     [TestClass]
     [TestCategory("GoalsReviewFeedback")]
-    public class GoalsReviewFeedbackTests : BaseTest
+    public class TS03GoalsReviewFeedbackTests : BaseTest
     {
+        internal static Feedback AddFeedbackFOr = new Feedback
+        {
+            Employee = "Jan Kowal",
+            DateFeedback = "2022-09-02"
+        };
         internal static Feedback feedback = new Feedback
         {
             //MarkType = Mark.Completed
             Mark = "1",
             Comment1 = "komentuje",
             Comment2 = "komentuje drugi raz",
-            Comment3 = "komentuje 3 raz"
-        };
-
-        internal static Feedback AddFeedbackFOr = new Feedback
-        {
-            Employee = "Jan Kowal",
-            DateFeedback = "2020-09-02"
+            SupperiorComment = "komentarz przelożonego"
         };
         internal static Feedback ReceiverOfQuestionnaire = new Feedback
         {
             Receiver ="Kuba Tester",
             Questionnaire = "test",
-            DateFeedback = "2021-09-18"
+            DateFeedback = "2022-09-18"
         };
         internal static Feedback ReceiverOfInvite = new Feedback
         {
             Receiver = "Kuba Tester",
-            DateFeedback = "2021-09-16 14:29:00"
+            DateFeedback = "2022-09-02 14:29:00"
         };
-        internal static string NameOfUserToInvite = "Jan Kowal";
-        internal static string DateOfInvitation = "2021-09-23";
-        [TestMethod]
+        internal static string HisName = "Jan Kowal";
+        internal static string HisFeedbackDate = "2022-09-02";
+        internal static string Status = "Zaplanowany";
+        [TestMethod, TestCategory("GoalsReviewFeedback")]
         [Description("Checks if feedback is added.")]
-        public void AddNewFeedback()
+        public void TC01AddNewFeedback()
         {
             var loginPage = new LoginPage(driver, wait);
             loginPage.GoTo();
@@ -49,50 +49,53 @@ namespace PMT9._0_FRAMEWORK
             var FeedbackPage = new GoalsReviewFeedbackPage(driver, wait);
             FeedbackPage.GoToGoalsReview();
             FeedbackPage.CreateFeedback(AddFeedbackFOr);
+
+            bool IsFeedbackAdded = FeedbackPage.IsFeedbackAdded(AddFeedbackFOr);
+            Assert.IsTrue(IsFeedbackAdded, "Feedback has not been added.");
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("GoalsReviewFeedback")]
         [Description("Checks if invite is sent.")]
-        public void SendInviteForFeedback()
+        public void TC02SendInviteForFeedback()
         {
             var loginPage = new LoginPage(driver, wait);
             loginPage.GoTo();
             loginPage.SignUp(myLogin, myPassword);
             var FeedbackPage = new SendInviteGoalsReview(driver, wait);
             FeedbackPage.GoToGoalsReview();
-            FeedbackPage.NameOfUserToSendInviteFor(NameOfUserToInvite, DateOfInvitation);
+            FeedbackPage.NameOfUserToSendInviteFor(HisName, HisFeedbackDate, Status);
             FeedbackPage.NameOfReceiver(ReceiverOfInvite);
 
             bool isSent = FeedbackPage.isSent();
             Assert.IsTrue(isSent, "Invite has not been sent.");
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("GoalsReviewFeedback")]
         [Description("Checks if report is added.")]
-        public void AddReport()
+        public void TC04AddReport()
         {
             var loginPage = new LoginPage(driver, wait);
             loginPage.GoTo();
             loginPage.SignUp(myLogin, myPassword);
             var FeedbackPage = new AddReportGoalsReview(driver, wait);
             FeedbackPage.GoToGoalsReview();
-            FeedbackPage.NameOfUserToReport("Jan Kowal", "2021-09-23");
+            FeedbackPage.NameOfUserToReport(HisName, HisFeedbackDate, Status);
             FeedbackPage.CreateReportForApexJunior(feedback);
 
             bool isAdded = FeedbackPage.isAdded();
-            Assert.IsTrue(isAdded, "Report isn't added. Something went wrong");
+            Assert.IsTrue(isAdded, "Report has not been added");
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("GoalsReviewFeedback")]
         [Description("Checks if questionnaire is sent.")]
-        public void SendQuestionnaire()
+        public void TC03SendQuestionnaire()
         {
             var loginPage = new LoginPage(driver, wait);
             loginPage.GoTo();
             loginPage.SignUp(myLogin, myPassword);
             var FeedbackPage = new SendQuestionnaireGoalsReview(driver, wait);
             FeedbackPage.GoToGoalsReview();
-            FeedbackPage.NameOfUserToSendQuestionnaireFor("Jan Kowal", "2021-09-23");
+            FeedbackPage.NameOfUserToSendQuestionnaireFor(HisName, HisFeedbackDate, Status);
             FeedbackPage.NameOfReceiver(ReceiverOfQuestionnaire);
 
             bool isSent = FeedbackPage.isSent();

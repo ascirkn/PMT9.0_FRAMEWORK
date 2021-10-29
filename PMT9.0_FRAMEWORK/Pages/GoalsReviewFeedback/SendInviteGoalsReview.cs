@@ -18,9 +18,9 @@ namespace PMT9._0_FRAMEWORK.Pages.GoalsReviewFeedback
         private IWebElement OutReceiverWindow => SendInviteButton.FindElement(By.XPath("//div[@class='t-ButtonRegion-col t-ButtonRegion-col--content']"));
         public SendInviteGoalsReview(OpenQA.Selenium.IWebDriver driver, WebDriverWait wait) : base(driver, wait) { }
 
-        internal void NameOfUserToSendInviteFor(string NameOfUserToSendInviteFor, string DateOfFeedbackToReport)
+        internal void NameOfUserToSendInviteFor(string NameOfUserToSendInviteFor, string DateOfFeedbackToReport, string Status)
         { 
-            IWebElement AddFor = wait.Until(ElementIsVisible(By.XPath("//td[@class=' u-tL' and contains(text(), '" + NameOfUserToSendInviteFor + "')]//following-sibling::td[@class=' u-tC' and contains(text(), '" + DateOfFeedbackToReport + "')]//preceding-sibling::td[@class=' u-tL']//input[@name='f01']")));
+            IWebElement AddFor = wait.Until(ElementIsVisible(By.XPath("//td[@class=' u-tL' and contains(text(), '" + NameOfUserToSendInviteFor + "')]//following-sibling::td[@class=' u-tC' and contains(text(), '" + DateOfFeedbackToReport + "')]//following-sibling::td[@class=' u-tL' and contains(text(), '" + Status + "')]//preceding-sibling::td[@class=' u-tL']//input[@name='f01']")));
             wait.Until(ElementToBeClickable(AddFor)).Click();
         }
 

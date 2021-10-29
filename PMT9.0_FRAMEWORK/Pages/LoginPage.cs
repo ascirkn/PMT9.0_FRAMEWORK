@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
@@ -18,7 +19,7 @@ namespace PMT9._0_FRAMEWORK.Pages
 
         private IWebElement UsernameField => wait.Until(ElementIsVisible(By.Id("P1_USERNAME")));
         private IWebElement PasswordField => wait.Until(ElementIsVisible(By.Id("P1_PASSWORD")));
-        private IWebElement Error => wait.Until(ElementIsVisible(By.XPath("//*[@class='t-Alert-body']")));
+        private IWebElement ErrorMessage => wait.Until(ElementIsVisible(By.XPath("//*[@class='t-Alert-body']")));
      
 
         private IWebElement Button => driver.FindElement(By.Id("B3203672799006821347"));
@@ -36,16 +37,11 @@ namespace PMT9._0_FRAMEWORK.Pages
         {
             driver.Navigate().GoToUrl("http://172.31.1.90:8080/apex/f?p=401:LOGIN:336298854305");
         }
-        internal bool IsErrorDisplayed()
+        internal string GetErrorMessage()
         {
-            if (Error.Displayed)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            Assert.IsTrue(ErrorMessage.Displayed, "Error message is not displayed.");
+            System.Console.WriteLine("Error message: " + ErrorMessage.Text);
+            return ErrorMessage.Text;
         }
     }
 }

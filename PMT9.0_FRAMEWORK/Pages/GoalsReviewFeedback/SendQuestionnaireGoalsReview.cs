@@ -19,10 +19,10 @@ namespace PMT9._0_FRAMEWORK.Pages.GoalsReviewFeedback
         private SelectElement QuestionnaireSelect => new SelectElement(Questionnaire);
         private IWebElement SendQuestionnaireButton => wait.Until(ElementIsVisible(By.XPath("//button[@class='t-Button t-Button--icon t-Button--iconLeft t-Button--hot']")));
         private IWebElement Deadline => SendQuestionnaireButton.FindElement(By.XPath("//input[@class='datepicker apex-item-text apex-item-datepicker hasDatepicker']"));
-        internal void NameOfUserToSendQuestionnaireFor(string NameOfUserToSendQuestionnaireFor, string DateOfFeedbackToReport)
+        internal void NameOfUserToSendQuestionnaireFor(string NameOfUserToSendQuestionnaireFor, string DateOfFeedbackToReport, string Status)
         {
             //IWebElement AddFor = wait.Until(ElementIsVisible(By.XPath("//select[@id='P435_EMPLOYEE']//option[contains(text(), '" + NameOfUserToSendQuestionnaireFor + "')]")));
-            IWebElement AddFor = wait.Until(ElementIsVisible(By.XPath("//td[@class=' u-tL' and contains(text(), '" + NameOfUserToSendQuestionnaireFor + "')]//following-sibling::td[@class=' u-tC' and contains(text(), '" + DateOfFeedbackToReport + "')]//preceding-sibling::td[@class=' u-tL']//input[@name='f01']")));
+            IWebElement AddFor = wait.Until(ElementIsVisible(By.XPath("//td[@class=' u-tL' and contains(text(), '" + NameOfUserToSendQuestionnaireFor + "')]//following-sibling::td[@class=' u-tC' and contains(text(), '" + DateOfFeedbackToReport + "')]//following-sibling::td[@class=' u-tL' and contains(text(), '" + Status + "')]//preceding-sibling::td[@class=' u-tL']//input[@name='f01']")));
             wait.Until(ElementToBeClickable(AddFor)).Click();
         }
 
