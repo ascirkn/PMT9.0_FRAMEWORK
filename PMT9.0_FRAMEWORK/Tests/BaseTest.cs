@@ -13,7 +13,7 @@ namespace PMT9._0_FRAMEWORK
         public WebDriverWait wait { get; private set; }
 
         public static readonly string myLogin = "iarabas";
-        public static readonly string myPassword = "f=6zde2Y8V";
+        public static readonly string myPassword = "78sd78a";
 
         [TestInitialize]
         public void Setup()
